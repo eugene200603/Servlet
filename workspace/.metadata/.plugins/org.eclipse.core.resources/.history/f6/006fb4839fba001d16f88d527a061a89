@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Upload files</title>
+</head>
+<body>
+	<form >
+	<button type="button" id=add value="more">+</button><br>
+	
+		File 1: <input type="file" name="file1" /><br>
+		File 2: <input type="file" name="file2" /><br>
+		File 3: <input type="file" name="file3" /><br>
+		<input type="submit" value="上傳" />		
+	</form>
+	<script>
+	
+	
+	document.getElementById("add").addEventListener(click,add);
+	let num=4;
+	function add(){	
+		form=document.getElementById("form");
+		let newInput=document.createElement("input");	
+		newInput.setAttribute("type","file");
+		newInput.setAttribute("name","file"+num);		
+		num++;
+		
+		document.write("File 3:");
+		form.appendChild(newInput);
+		document.write("<br>");
+		
+		}
+	</script>
+	
+</body>
+</html>
