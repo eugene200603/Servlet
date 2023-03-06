@@ -18,7 +18,7 @@ public class EncodingFilterDemo extends HttpServlet {
 	//	response.setContentType("text/html;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		out.write("<html><head><title>Filter Demo</title></head>");
-		out.write("<body><h3>Hello, §A¦n!</h3><br></body></html>");
+		out.write("<body><h3>Hello,ä½ å¥½!</h3><br></body></html>");
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

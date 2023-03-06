@@ -11,6 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@WebServlet(urlPatterns="/ServletInitParams",
+			initParams= {@WebInitParam(name="greeting", value="Have a nice day!"),
+					@WebInitParam(name="count", value="3")})
+
 public class ServletInitParams extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	String servletName;
