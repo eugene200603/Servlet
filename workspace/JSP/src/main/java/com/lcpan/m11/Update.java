@@ -20,21 +20,26 @@ import javax.sql.DataSource;
 import com.lcpan.bean.EmpBean;
 
 
-@WebServlet("/GetEmpJNDI")
-public class GetEmpJNDI extends HttpServlet {
+@WebServlet("/Update")
+public class Update extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	Connection conn;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {		
 		String empno=request.getParameter("empno");
-		String sql = "SELECT [empno]\r\n"
-				+ "      ,[ename]\r\n"
-				+ "      ,[hiredate]\r\n"
-				+ "      ,[salary]\r\n"
-				+ "      ,[deptno]\r\n"
-				+ "      ,[title]\r\n"
-				+ "  FROM [dbo].[employee] where empno=?";
+		String ename=request.getParameter("ename");
+		String hiredate=request.getParameter("hiredate");
+		String salary=request.getParameter("salary");
+		String deptno=request.getParameter("deptno");
+		String title=request.getParameter("title");
+		String sql = "UPDATE [dbo].[employee]\r\n"
+				+ "   SET [ename] =? \r\n"
+				+ "      ,[hiredate]=? \r\n"
+				+ "      ,[salary] =? \r\n"
+				+ "      ,[deptno] =? \r\n"
+				+ "      ,[title] =? \r\n"
+				+ " WHERE [empno] =?";
 		
 		try {
 				Context context=new InitialContext();
@@ -42,30 +47,39 @@ public class GetEmpJNDI extends HttpServlet {
 						.lookup("java:/comp/env/jdbc/servdb");
 				conn=ds.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql);
-				stmt.setString(1, empno);
-				ResultSet rs = stmt.executeQuery();
-				EmpBean emp=new EmpBean();
-			
-			if(rs.next()) {
-				emp.setEmpno(rs.getString("empno"));
-				emp.setEname(rs.getString("ename"));
-				emp.setHiredate(rs.getString("hiredate"));
-				emp.setSalary(rs.getString("salary"));
-				emp.setDeptno(rs.getString("deptno"));
-				emp.setTitle(rs.getString("title"));				
-			}
-			request.setAttribute("emp", emp);
+				
+				
+				stmt.setString(1, ename);
+				stmt.setString(2, hiredate);
+				stmt.setString(3, salary);
+				stmt.setString(4, deptno);
+				stmt.setString(5, title);
+				stmt.setString(6, empno);
+				
+				int updateCount = stmt.executeUpdate();
+				if(updateCount>=1) {
+					
+					request.setAttribute("message", "修改成功");
+				}else {
+					
+					request.setAttribute("message", "修改失敗");
+				}		
+				
 			stmt.close();
-			request.getRequestDispatcher("/m10/GetEmp.jsp")
+			request.getRequestDispatcher("/m11/Update.jsp")
 			.forward(request, response);
 			
 			
 		} catch (SQLException e) {
 			
-			e.printStackTrace();
+			request.setAttribute("message", "修改失敗");
+			request.getRequestDispatcher("/m11/Update.jsp")
+			.forward(request, response);
 		} catch (NamingException e) {
 			
-			e.printStackTrace();
+			request.setAttribute("message", "修改失敗");
+			request.getRequestDispatcher("/m11/Update.jsp")
+			.forward(request, response);
 		}
 		finally {
 			

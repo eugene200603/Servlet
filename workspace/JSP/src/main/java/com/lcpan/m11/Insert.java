@@ -20,21 +20,27 @@ import javax.sql.DataSource;
 import com.lcpan.bean.EmpBean;
 
 
-@WebServlet("/GetEmpJNDI")
-public class GetEmpJNDI extends HttpServlet {
+@WebServlet("/Insert")
+public class Insert extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	Connection conn;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {		
 		String empno=request.getParameter("empno");
-		String sql = "SELECT [empno]\r\n"
-				+ "      ,[ename]\r\n"
-				+ "      ,[hiredate]\r\n"
-				+ "      ,[salary]\r\n"
-				+ "      ,[deptno]\r\n"
-				+ "      ,[title]\r\n"
-				+ "  FROM [dbo].[employee] where empno=?";
+		String ename=request.getParameter("ename");
+		String hiredate=request.getParameter("hiredate");
+		String salary=request.getParameter("salary");
+		String deptno=request.getParameter("deptno");
+		String title=request.getParameter("title");
+		String sql = "INSERT INTO [dbo].[employee]\r\n"
+				+ "           ([empno]\r\n"
+				+ "           ,[ename]\r\n"
+				+ "           ,[hiredate]\r\n"
+				+ "           ,[salary]\r\n"
+				+ "           ,[deptno]\r\n"
+				+ "           ,[title])\r\n"
+				+ "     VALUES(?,?,?,?,?,?)";
 		
 		try {
 				Context context=new InitialContext();
@@ -43,29 +49,38 @@ public class GetEmpJNDI extends HttpServlet {
 				conn=ds.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql);
 				stmt.setString(1, empno);
-				ResultSet rs = stmt.executeQuery();
-				EmpBean emp=new EmpBean();
+				stmt.setString(2, ename);
+				stmt.setString(3, hiredate);
+				stmt.setString(4, salary);
+				stmt.setString(5, deptno);
+				stmt.setString(6, title);
+						
+			int updateCount = stmt.executeUpdate();
+			if(updateCount<1) {
+				
+				request.setAttribute("message", "新增失敗");
+			}else {
+				
+				request.setAttribute("message", "新增成功");
+			}		
 			
-			if(rs.next()) {
-				emp.setEmpno(rs.getString("empno"));
-				emp.setEname(rs.getString("ename"));
-				emp.setHiredate(rs.getString("hiredate"));
-				emp.setSalary(rs.getString("salary"));
-				emp.setDeptno(rs.getString("deptno"));
-				emp.setTitle(rs.getString("title"));				
-			}
-			request.setAttribute("emp", emp);
 			stmt.close();
-			request.getRequestDispatcher("/m10/GetEmp.jsp")
+			request.getRequestDispatcher("/m11/Insert.jsp")
 			.forward(request, response);
 			
 			
-		} catch (SQLException e) {
 			
-			e.printStackTrace();
+			
+		} catch (SQLException e) {
+			request.setAttribute("message", "新增失敗");
+            request.getRequestDispatcher("/m11/Insert.jsp")
+			.forward(request, response);
+			
 		} catch (NamingException e) {
 			
-			e.printStackTrace();
+			request.setAttribute("message", "新增失敗");
+            request.getRequestDispatcher("/m11/Insert.jsp")
+			.forward(request, response);
 		}
 		finally {
 			
@@ -76,7 +91,7 @@ public class GetEmpJNDI extends HttpServlet {
 						
 						e.printStackTrace();
 					}
-		     
+		 
 		        }
 		}	
 }

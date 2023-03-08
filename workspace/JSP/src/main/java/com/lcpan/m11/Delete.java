@@ -20,21 +20,16 @@ import javax.sql.DataSource;
 import com.lcpan.bean.EmpBean;
 
 
-@WebServlet("/GetEmpJNDI")
-public class GetEmpJNDI extends HttpServlet {
+@WebServlet("/Delete")
+public class Delete extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	Connection conn;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {		
 		String empno=request.getParameter("empno");
-		String sql = "SELECT [empno]\r\n"
-				+ "      ,[ename]\r\n"
-				+ "      ,[hiredate]\r\n"
-				+ "      ,[salary]\r\n"
-				+ "      ,[deptno]\r\n"
-				+ "      ,[title]\r\n"
-				+ "  FROM [dbo].[employee] where empno=?";
+		String sql = "DELETE FROM [dbo].[employee]\r\n"
+				+ "      WHERE empno=?";
 		
 		try {
 				Context context=new InitialContext();
@@ -43,21 +38,29 @@ public class GetEmpJNDI extends HttpServlet {
 				conn=ds.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql);
 				stmt.setString(1, empno);
-				ResultSet rs = stmt.executeQuery();
-				EmpBean emp=new EmpBean();
+				
 			
-			if(rs.next()) {
-				emp.setEmpno(rs.getString("empno"));
-				emp.setEname(rs.getString("ename"));
-				emp.setHiredate(rs.getString("hiredate"));
-				emp.setSalary(rs.getString("salary"));
-				emp.setDeptno(rs.getString("deptno"));
-				emp.setTitle(rs.getString("title"));				
-			}
-			request.setAttribute("emp", emp);
+//				ResultSet rs = stmt.executeQuery();
+//				EmpBean emp=new EmpBean();
+//			
+//			if(rs.next()) {
+//				emp.setEmpno(rs.getString("empno"));				
+//			}
+//			request.setAttribute("emp", emp);
+			
+			int updateCount = stmt.executeUpdate();
+			if(updateCount>=1) {
+				
+				request.setAttribute("message", "刪除成功");
+			}else {
+				
+				request.setAttribute("message", "刪除失敗");
+			}		
 			stmt.close();
-			request.getRequestDispatcher("/m10/GetEmp.jsp")
+			request.getRequestDispatcher("/m11/Delete.jsp")
 			.forward(request, response);
+			
+			
 			
 			
 		} catch (SQLException e) {

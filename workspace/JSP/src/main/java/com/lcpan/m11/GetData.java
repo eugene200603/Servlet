@@ -20,8 +20,8 @@ import javax.sql.DataSource;
 import com.lcpan.bean.EmpBean;
 
 
-@WebServlet("/GetEmpJNDI")
-public class GetEmpJNDI extends HttpServlet {
+@WebServlet("/GetData")
+public class GetData extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	Connection conn;
@@ -56,7 +56,7 @@ public class GetEmpJNDI extends HttpServlet {
 			}
 			request.setAttribute("emp", emp);
 			stmt.close();
-			request.getRequestDispatcher("/m10/GetEmp.jsp")
+			request.getRequestDispatcher("/m11/GetData.jsp")
 			.forward(request, response);
 			
 			
@@ -76,7 +76,7 @@ public class GetEmpJNDI extends HttpServlet {
 						
 						e.printStackTrace();
 					}
-		     
+		            
 		        }
 		}	
 }
