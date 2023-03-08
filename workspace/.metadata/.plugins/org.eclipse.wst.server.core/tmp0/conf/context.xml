@@ -26,4 +26,8 @@
     <!--
     <Manager pathname="" />
     -->
+    <ResourceLink
+    	type="javax.sql.DataSource"
+    	global="jdbc/servdb"
+    	name="jdbc/servdb"/>
 </Context>

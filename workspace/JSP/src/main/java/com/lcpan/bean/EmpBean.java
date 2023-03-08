@@ -16,10 +16,10 @@ public class EmpBean implements java.io.Serializable {
 	public String getDeptno() {  return deptno;  }
 	public String getTitle() {  return title;  }
 
-	public void setEmpno(String empno) {  this.empno = empno;  }
-	public void setEname(String ename) {  this.ename = ename;  }
-	public void setHiredate(String hiredate) {  this.hiredate= hiredate;  }
-	public void setSalary(String salary) {  this.salary = salary;  }
-	public void setDeptno(String deptno) {  this.deptno= deptno;	}
-	public void setTitle(String title) {  this.title= title;	}
+	public void setEmpno(String empno) {  this.empno = empno;}
+	public void setEname(String ename) {  this.ename = ename;}
+	public void setHiredate(String hiredate) {  this.hiredate= hiredate;}
+	public void setSalary(String salary) {  this.salary = salary;}
+	public void setDeptno(String deptno) {  this.deptno= deptno;}
+	public void setTitle(String title) {  this.title= title;}
 }
