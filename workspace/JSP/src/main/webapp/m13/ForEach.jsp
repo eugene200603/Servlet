@@ -36,7 +36,7 @@
   		${item}<br>
 	</c:forEach>	
 	
-	<c:forEach items="${names}" var="item" varStatus="s">
+	<c:forEach items="${names}" var="item" varStatus="s" >
 		<h4><c:out value="${item}"/>的四種屬性：</h4>
 		index：${s.index}<br>
 		count：${s.count}<br>

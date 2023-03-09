@@ -4,14 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>員工資料</title>
+<title>Hello</title>
 </head>
-<body style="background-color:#fdf5e6">
-<div align="center">
-<h2>新增員工資料</h2>
-
-
-	<%=request.getAttribute("message") %>
-</div>
+<body>
+<h1>Hello,${param.username}</h1>
 </body>
 </html>
