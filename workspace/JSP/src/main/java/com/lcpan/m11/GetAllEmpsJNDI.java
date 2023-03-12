@@ -38,11 +38,11 @@ public class GetAllEmpsJNDI extends HttpServlet {
 				+ "      ,[title]\r\n"
 				+ "  FROM [dbo].[employee]";
 		
-		
+	try {	
 			Context context=new InitialContext();
 			DataSource ds=(DataSource)context
 					.lookup("java:/comp/env/jdbc/servdb");
-		try (conn=ds.getConnection();){
+			conn=ds.getConnection();
 			PreparedStatement stmt = conn.prepareStatement(sql);			
 			ResultSet rs = stmt.executeQuery();
 			List<EmpBean>emps=new ArrayList<>();
@@ -63,18 +63,27 @@ public class GetAllEmpsJNDI extends HttpServlet {
 			request.getRequestDispatcher("/m10/GetAllEmps.jsp")
 			.forward(request, response);
 			
-			
-		} catch (SQLException e) {
-			
-			e.printStackTrace();
+	} catch (SQLException e) {
 		
-		} catch (NamingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		e.printStackTrace();
+	
+	} catch (NamingException e) {
 		
+		e.printStackTrace();
 	}
-
+	finally {
+		
+        if (conn != null) {
+            try {
+				conn.close();
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
+        }
+        	
+	}	
+	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
