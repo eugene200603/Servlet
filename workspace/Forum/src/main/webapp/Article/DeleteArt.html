@@ -6,7 +6,7 @@
 </head>
 <body>
 <h2>刪除文章資料</h2>
-<form method="post" action="../DeleteArt">
+<form method="post" action="../DeleteArt" onsubmit="return confirm('確認提交表單？')">
 	輸入文章編號 : <input type="text" name="artid" /><p>
 	<input type="submit" value="確定" />
 </form>

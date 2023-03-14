@@ -24,7 +24,7 @@ import com.dep.bean.*;
 public class UpdateArt extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
-	Connection conn;
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {		
 		String artid=request.getParameter("updateId");
@@ -34,67 +34,29 @@ public class UpdateArt extends HttpServlet {
 		String categoryid=request.getParameter("updateCategoryid");
 		String createtime=request.getParameter("updateCreatetime");
 		String updatetime=request.getParameter("updateUpdatetime");
-		String sql = "UPDATE [dbo].[Article]"				
-				+ "SET   [Title]=? \r\n"
-				+ "      ,[MainContent]=?\r\n"
-				+ "      ,[AuthorID]=?\r\n"
-				+ "      ,[CategoryID]=?\r\n"
-				+ "      ,[CreateTime]=?\r\n"
-				+ "      ,[UpdateTime]=?\r\n"
-				+ " WHERE ArticleID=?";
 		
-		try {
-				Context context=new InitialContext();
-				DataSource ds=(DataSource)context
-						.lookup("java:/comp/env/jdbc/Department");
-				conn=ds.getConnection();
-				PreparedStatement stmt = conn.prepareStatement(sql);
+			ArticleBean art=new ArticleBean();
+			art.setArtid(artid);
+			art.setTitle(title);
+			art.setMaincontent(maincontent);
+			art.setAuthorid(authorid);
+			art.setCategoryid(categoryid);
+			art.setCreatetime(createtime);
+			art.setUpdatetime(updatetime);
+		
 				
+			ArticleDAO dao=new ArticleDAO();
+			boolean success=dao.deleteArt(artid);	
 				
-				stmt.setString(1,title);
-				stmt.setString(2, maincontent);
-				stmt.setString(3,authorid);
-				stmt.setString(4,categoryid);
-				stmt.setString(5,createtime);
-				stmt.setString(6,updatetime);
-				stmt.setString(7,artid);
-				
-				
-				int updateCount = stmt.executeUpdate();
-				if(updateCount>=1) {
+				if(success) {
 					
 					request.setAttribute("message", "修改成功");
 				}else {
 					
 					request.setAttribute("message", "修改失敗");
-				}		
-				
-			stmt.close();
+				}					
 			request.getRequestDispatcher("/Article/UpdateArt.jsp")
-			.forward(request, response);
-			
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-			request.setAttribute("message", "修改失敗");
-			request.getRequestDispatcher("/Article/UpdateArt.jsp")
-			.forward(request, response);
-		} catch (NamingException e) {
-			e.printStackTrace();
-			
-		}
-		finally {
-			
-		        if (conn != null) {
-		            try {
-						conn.close();
-					} catch (SQLException e) {
-						
-						e.printStackTrace();
-					}
-		     
-		        }
-		}	
+			.forward(request, response);		
 }
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
