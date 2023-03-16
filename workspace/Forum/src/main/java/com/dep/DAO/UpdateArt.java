@@ -46,7 +46,7 @@ public class UpdateArt extends HttpServlet {
 		
 				
 			ArticleDAO dao=new ArticleDAO();
-			boolean success=dao.deleteArt(artid);	
+			boolean success=dao.updateArticle(art)	;
 				
 				if(success) {
 					
