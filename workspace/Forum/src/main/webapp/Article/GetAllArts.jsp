@@ -22,11 +22,11 @@
 	<td>${art.categoryid}
 	<td>${art.createtime}
 	<td>${art.updatetime}	
-	<td><form action="./GetArtForU?artid=${art.artid}" method="post">             
+	<td><form action="./GetArtForU?artid=${art.artid}" method="post" onsubmit="return confirm('是否確定變更？')">             
         <button type="submit">Update</button>
       </form>
 	
-	<td><form action="./DeleteArt?artid=${art.artid}" method="post">             
+	<td><form action="./DeleteArt?artid=${art.artid}" method="post" onsubmit="return confirm('是否確定刪除？')">             
         <button type="submit">Delete</button>
       </form>
 	</c:forEach>	

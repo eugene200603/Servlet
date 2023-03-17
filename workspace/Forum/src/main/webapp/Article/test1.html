@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <title>討論區後台</title>
+  <!-- 引入CSS檔案 -->
+  <link rel="stylesheet" href="style1.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+
+<body>
+    <!-- 左側固定選單 -->
+    <nav>
+      <ul>
+        <li><a href="#articles">文章管理</a></li>
+        <li><a href="#comments">留言管理</a></li>
+      </ul>
+    </nav>
+    <!-- 主畫面 -->
+    <main>
+      <section id="articles">
+        <!-- 查詢功能 -->
+        <form>
+          <label for="keyword">標題關鍵字：</label>
+          <input type="text" id="keyword">
+          <label for="author">發文者ID：</label>
+          <input type="text" id="author">
+          <label for="category">類別：</label>
+          <select id="category">
+            <option value="">所有</option>
+            <option value="1">新聞</option>
+            <option value="2">娛樂</option>
+            <option value="3">美食</option>
+          </select>
+          <input type="submit" value="查詢">
+        </form>
+        <!-- 新增文章 -->
+        <button id="add-article">新建文章</button>
+        <!-- 文章列表 -->
+        <table>
+          <thead>
+            <tr>
+              <th>縮圖</th>
+              <th>文章ID</th>
+              <th>標題</th>
+              <th>文章內容</th>
+              <th>發文者ID</th>
+              <th>類別ID</th>
+              <th>發文日期</th>
+              <th>修改日期</th>
+              <th>狀態</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><img src="thumbnail.jpg"></td>
+              <td>1</td>
+              <td>文章標題</td>
+              <td>文章內容</td>
+              <td>user1</td>
+              <td>1</td>
+              <td>2022-03-16 10:00:00</td>
+              <td>2022-03-16 10:30:00</td>
+              <td>發佈</td>
+              <td>
+                <button>更新</button>
+                <button>刪除</button>
+              </td>
+            </tr>
+            <!-- 其他文章資料 -->
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </body>
+
+</html>

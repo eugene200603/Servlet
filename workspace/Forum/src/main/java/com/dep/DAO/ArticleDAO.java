@@ -34,24 +34,24 @@ public class ArticleDAO  {
 	public boolean  CreateArt(ArticleBean art) {
 		
 			String sql = "INSERT INTO [dbo].[Article]\r\n"
-					+ "           ([ArticleID]\r\n"
-					+ "           ,[Title]\r\n"
+//					+ "           ([ArticleID]\r\n"
+					+ "           ([Title]\r\n"
 					+ "           ,[MainContent]\r\n"
 					+ "           ,[AuthorID]\r\n"
-					+ "           ,[CategoryID]\r\n"
-					+ "           ,[CreateTime]\r\n"
-					+ "           ,[UpdateTime])\r\n"
-					+ "     VALUES(?,?,?,?,?,?,?)";
+					+ "           ,[CategoryID])\r\n"
+//					+ "           ,[CreateTime]\r\n"
+//					+ "           ,[UpdateTime])\r\n"
+					+ "     VALUES(?,?,?,?)";
 						
 				try (Connection conn=conn();				
 					PreparedStatement stmt = conn.prepareStatement(sql);){
-					stmt.setString(1,art.getArtid());
-					stmt.setString(2,art.getTitle());
-					stmt.setString(3,art.getMaincontent());
-					stmt.setString(4,art.getAuthorid());
-					stmt.setString(5,art.getCategoryid());
-					stmt.setString(6,art.getCreatetime());
-					stmt.setString(7,art.getUpdatetime());
+//					stmt.setString(1,art.getArtid());
+					stmt.setString(1,art.getTitle());
+					stmt.setString(2,art.getMaincontent());
+					stmt.setString(3,art.getAuthorid());
+					stmt.setString(4,art.getCategoryid());
+//					stmt.setString(6,art.getCreatetime());
+//					stmt.setString(7,art.getUpdatetime());
 					
 				int updateCount = stmt.executeUpdate();
 				if(updateCount>=1) {					
