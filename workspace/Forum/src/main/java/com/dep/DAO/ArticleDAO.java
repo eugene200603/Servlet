@@ -72,10 +72,14 @@ public class ArticleDAO  {
 	}
 		
 	
+	
+	
+	
 	//R-one
-	public ArticleBean findArticle(String artid) {
+	public ArticleBean findArticleByID(String artid) {
+		
 			
-			String sql = "SELECT * From Article where articleid=?";
+			String sql = "SELECT * From Article where ArticleID=?";
 			try (Connection conn=conn();
 					PreparedStatement stmt = conn.prepareStatement(sql);){
 					stmt.setString(1, artid);
@@ -101,11 +105,83 @@ public class ArticleDAO  {
 			
 		return null;
 	}
+	//findByCategory
+	public List<ArticleBean> findArticleByCat(String categoryid) {	
+		String sql = "SELECT * From Article \r\n"
+				+ "INNER JOIN Category ON Article.CategoryID = Category.CategoryID \r\n"
+				+ "where Article.CategoryID=?";
+		try (Connection conn=conn();
+				PreparedStatement stmt = conn.prepareStatement(sql);){
+				stmt.setString(1, categoryid);
+				ResultSet rs = stmt.executeQuery();
+				
+			
+				List<ArticleBean>arts=new ArrayList<>();
+				ArticleBean art=null;
+				
+				while(rs.next()) {
+					art=new ArticleBean();
+					art.setArtid(rs.getString("articleid"));
+					art.setTitle(rs.getString("title"));
+					art.setMaincontent(rs.getString("maincontent"));
+					art.setAuthorid(rs.getString("authorid"));
+					art.setCategoryid(rs.getString("categoryid"));
+					art.setCategoryname(rs.getString("categoryname"));
+					art.setCreatetime(rs.getString("createtime"));
+					art.setUpdatetime(rs.getString("updatetime"));
+					arts.add(art);
+				}
+				
+				return arts;
+		} catch (SQLException e) {				
+			e.printStackTrace();
+		} catch (NamingException e) {				
+			e.printStackTrace();
+		}
+		
+	return null;
+}
 	
+	
+	public List<ArticleBean> findArticleByMem(String authorid) {	
+		String sql = "SELECT * From Article \r\n"
+				+ "INNER JOIN Category ON Article.CategoryID = Category.CategoryID \r\n"
+				+ "where Article.AuthorID=?";
+		try (Connection conn=conn();
+				PreparedStatement stmt = conn.prepareStatement(sql);){
+				stmt.setString(1, authorid);
+				ResultSet rs = stmt.executeQuery();
+				
+			
+				List<ArticleBean>arts=new ArrayList<>();
+				ArticleBean art=null;
+				
+				while(rs.next()) {
+					art=new ArticleBean();
+					art.setArtid(rs.getString("articleid"));
+					art.setTitle(rs.getString("title"));
+					art.setMaincontent(rs.getString("maincontent"));
+					art.setAuthorid(rs.getString("authorid"));
+					art.setCategoryid(rs.getString("categoryid"));
+					art.setCategoryname(rs.getString("categoryname"));
+					art.setCreatetime(rs.getString("createtime"));
+					art.setUpdatetime(rs.getString("updatetime"));
+					arts.add(art);
+				}
+				
+				return arts;
+		} catch (SQLException e) {				
+			e.printStackTrace();
+		} catch (NamingException e) {				
+			e.printStackTrace();
+		}
+		
+	return null;
+}
 		// R-ALL
 		
 		public List<ArticleBean> findAllArticle() {			
-			String sql ="SELECT * From Article";
+			String sql ="SELECT * From Article INNER JOIN Category ON Article.CategoryID = Category.CategoryID";
 			
 			try (Connection conn=conn();
 				
@@ -121,6 +197,7 @@ public class ArticleDAO  {
 					art.setMaincontent(rs.getString("maincontent"));
 					art.setAuthorid(rs.getString("authorid"));
 					art.setCategoryid(rs.getString("categoryid"));
+					art.setCategoryname(rs.getString("categoryname"));
 					art.setCreatetime(rs.getString("createtime"));
 					art.setUpdatetime(rs.getString("updatetime"));
 					arts.add(art);
@@ -145,8 +222,8 @@ public class ArticleDAO  {
 				+ "      ,[MainContent]=?\r\n"
 				+ "      ,[AuthorID]=?\r\n"
 				+ "      ,[CategoryID]=?\r\n"
-				+ "      ,[CreateTime]=?\r\n"
-				+ "      ,[UpdateTime]=?\r\n"
+//				+ "      ,[CreateTime]=?\r\n"
+//				+ "      ,[UpdateTime]=?\r\n"
 				+ " WHERE ArticleID=?";
 		
 		try (Connection conn=conn();				
@@ -156,9 +233,9 @@ public class ArticleDAO  {
 				stmt.setString(2,art.getMaincontent());
 				stmt.setString(3,art.getAuthorid());
 				stmt.setString(4,art.getCategoryid());
-				stmt.setString(5,art.getCreatetime());
-				stmt.setString(6,art.getUpdatetime());
-				stmt.setString(7,art.getArtid());
+//				stmt.setString(5,art.getCreatetime());
+//				stmt.setString(6,art.getUpdatetime());
+				stmt.setString(5,art.getArtid());
 								
 				int updateCount = stmt.executeUpdate();
 				if(updateCount>=1) {					

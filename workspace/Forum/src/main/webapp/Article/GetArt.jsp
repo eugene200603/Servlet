@@ -19,9 +19,9 @@
 	<tr><td>類別ID<td><input type="text" disabled value="${art.categoryid}">
 	<tr><td>發文日期<td><input type="text" disabled value="${art.createtime}">
 	<tr><td>修改日期<td><input type="text" disabled value="${art.updatetime}">
-	
-	
 </table>
+
+
 </div>
 </body>
 </html>

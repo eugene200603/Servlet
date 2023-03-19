@@ -9,9 +9,12 @@
 <body style="background-color:#fdf5e6">
 <div align="center">
 <h2>新增文章資料</h2>
-
-
-	<%=request.getAttribute("message") %>
+	<script>
+        alert("<%=request.getAttribute("message") %>" );   
+        location.href = "./Article/article.html";
+       
+      </script>
+       
 </div>
 </body>
 </html>

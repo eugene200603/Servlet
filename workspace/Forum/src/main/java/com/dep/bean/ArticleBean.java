@@ -8,6 +8,7 @@ public class ArticleBean implements java.io.Serializable {
 	private String maincontent;
 	private String authorid;
 	private String categoryid;
+	private String categoryname;
 	private String createtime;
 	private String updatetime;
 	private String imgpath;
@@ -58,6 +59,12 @@ public class ArticleBean implements java.io.Serializable {
 	}
 	public void setImgpath(String imgpath) {
 		this.imgpath = imgpath;
+	}
+	public String getCategoryname() {
+		return categoryname;
+	}
+	public void setCategoryname(String categoryname) {
+		this.categoryname = categoryname;
 	}
 	
 	

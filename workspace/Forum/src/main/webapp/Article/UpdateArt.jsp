@@ -23,7 +23,12 @@
 	<tr><td>發文日期<td><input type="text" disabled value="${art.createtime}">
 	<tr><td>修改日期<td><input type="text" disabled value="${art.updatetime}">		
 </table>
-	<%=request.getAttribute("message") %>
+	<script>
+        alert("<%=request.getAttribute("message") %>" );   
+        window.history.go(-2);
+        location.reload();
+       
+      </script>
 </div>
 </body>
 </html>
