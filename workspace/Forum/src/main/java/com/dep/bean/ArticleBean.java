@@ -11,7 +11,8 @@ public class ArticleBean implements java.io.Serializable {
 	private String categoryname;
 	private String createtime;
 	private String updatetime;
-	private String imgpath;
+	private String state;
+	private String img;
 	public String getArtid() {
 		return artid;
 	}
@@ -54,17 +55,23 @@ public class ArticleBean implements java.io.Serializable {
 	public void setUpdatetime(String updatetime) {
 		this.updatetime = updatetime;
 	}
-	public String getImgpath() {
-		return imgpath;
+	public String getImg() {
+		return img;
 	}
-	public void setImgpath(String imgpath) {
-		this.imgpath = imgpath;
+	public void setImg(String img) {
+		this.img = img;
 	}
 	public String getCategoryname() {
 		return categoryname;
 	}
 	public void setCategoryname(String categoryname) {
 		this.categoryname = categoryname;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
 	}
 	
 	

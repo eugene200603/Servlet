@@ -79,6 +79,12 @@ text-align:center;
 </head>
 
 <body>
+<textarea name="maincontent" id="editor"></textarea>
+<script src="../ckeditor/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace('editor');
+</script>
+
 	<h1>新增文章資料</h1>
 	<form method="post" action="../CreateArt" id="createart" enctype="multipart/form-data" >
 			使用者帳號 : <input type="text" name="authorid" /><p>

@@ -38,10 +38,12 @@ public class ArticleDAO  {
 					+ "           ([Title]\r\n"
 					+ "           ,[MainContent]\r\n"
 					+ "           ,[AuthorID]\r\n"
-					+ "           ,[CategoryID])\r\n"
+					+ "           ,[CategoryID]\r\n"
 //					+ "           ,[CreateTime]\r\n"
 //					+ "           ,[UpdateTime])\r\n"
-					+ "     VALUES(?,?,?,?)";
+					+"				,[State]"
+					+"				,[ImagePath])"
+					+ "     VALUES(?,?,?,?,?,?)";
 						
 				try (Connection conn=conn();				
 					PreparedStatement stmt = conn.prepareStatement(sql);){
@@ -52,6 +54,8 @@ public class ArticleDAO  {
 					stmt.setString(4,art.getCategoryid());
 //					stmt.setString(6,art.getCreatetime());
 //					stmt.setString(7,art.getUpdatetime());
+					stmt.setString(5,art.getState());
+					stmt.setString(6,art.getImg());
 					
 				int updateCount = stmt.executeUpdate();
 				if(updateCount>=1) {					
@@ -71,6 +75,7 @@ public class ArticleDAO  {
 			return false;	
 	}
 		
+//Insert Image
 	
 	
 	
