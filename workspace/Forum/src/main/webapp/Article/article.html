@@ -14,7 +14,7 @@
     <!-- 左側選單 -->
     <div id="sidebar">
         <ul>
-        	<li>
+            <li>
                 <h1>討論區</h1>
             </li>
             <li><a href="article.html">文章管理</a></li>
@@ -30,62 +30,49 @@
             <form>
                 <label for="search-title">標題：</label>
                 <input type="text" id="search-title" name="search-title">
-                 <button type="submit">搜尋</button>
-              </form>     
-               <form id=findMem method="post" action="../GetByMem">  
+                <button type="submit">搜尋</button>
+            </form>
+            <form id=findMem method="post" action="../GetByMem">
                 <label for="search-author">發文者帳號：</label>
                 <input type="text" id="search-author" name="authorid">
-                 <button type="submit">搜尋</button>
-             </form>  
-             <form id=findCat method="post" action="../GetByCat">
+                <button type="submit">搜尋</button>
+            </form>
+            <form id=findCat method="post" action="../GetByCat">
                 <label for="search-category">類別：</label>
                 <select id="search-category" name="categoryid">
-                <option value="" disabled selected >選擇類別</option>
+                    <option value="" disabled selected>選擇類別</option>
                     <option value="1">公告</option>
-    				<option value="2">心情抒發</option>
-    				<option value="3">好康情報</option>
-    				<option value="4">其他</option>
+                    <option value="2">心情抒發</option>
+                    <option value="3">好康情報</option>
+                    <option value="4">其他</option>
                 </select>
                 <button type="submit">搜尋</button>
             </form>
-            
+
             <button id="all-article">所有文章</button>
             <button id="new-article">新建文章</button>
 
         </div>
 
         <!-- 下半部 -->
-        
+
         <div id="article-list">
             <table>
-                <!-- <thead>
-                    <tr>
-                        <th>縮圖</th>
-                        <th>文章ID</th>
-                        <th>標題</th>
-                        <th>文章內容</th>
-                        <th>發文者ID</th>
-                        <th>類別ID</th>
-                        <th>發文日期</th>
-                        <th>修改日期</th>
-                        <th>狀態</th>
-                        <th>更新</th>
-                        <th>刪除</th>
-                    </tr>
-                </thead> -->
+
                 <tbody>
                     <!-- 這裡會依照外連JSP自動生成表格內容 -->
                 </tbody>
             </table>
-  			 <div id="popup-container">
-			<button id="close-popup">關閉</button>
-  			<div id="popup-content">
-  			</div>
-  			
-			</div>		
-       </div>
+        </div>
+        <div id="popup-container">
+            <button id="close-popup">關閉</button>
+            <div id="popup-content">
+            </div>
+
+        </div>
     </div>
-   
+
+
 </body>
 
 </html>

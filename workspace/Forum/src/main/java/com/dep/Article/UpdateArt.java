@@ -11,6 +11,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,11 @@ import com.dep.bean.*;
 
 
 @WebServlet("/UpdateArt")
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024, // 1 MB
+        maxFileSize = 1024 * 1024 * 10, // 10 MB
+        maxRequestSize = 1024 * 1024 * 50 // 50 MB
+    )
 public class UpdateArt extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
@@ -36,6 +42,8 @@ public class UpdateArt extends HttpServlet {
 		String categoryid=request.getParameter("updateCategoryid");
 		String createtime=request.getParameter("updateCreatetime");
 		String updatetime=request.getParameter("updateUpdatetime");
+		String updatestate=request.getParameter("updatestate");
+		String updateimg=request.getParameter("updateimg");
 		String artid=request.getParameter("artid");
 			ArticleBean art=new ArticleBean();
 			
@@ -45,6 +53,8 @@ public class UpdateArt extends HttpServlet {
 			art.setCategoryid(categoryid);
 			art.setCreatetime(createtime);
 			art.setUpdatetime(updatetime);
+			art.setState(updatestate);;
+			art.setImg(updateimg);
 			art.setArtid(artid);
 				
 			ArticleDAO dao=new ArticleDAO();

@@ -81,21 +81,21 @@ text-align:center;
 <body>
 	<h1>新增文章資料</h1>
 	<form method="post" action="../CreateArt" id="createart" enctype="multipart/form-data" >
-			使用者帳號 : <input type="text" name="authorid" /><p>
-			標題 : <input type="text" name="title"/><p>
-			文章內容 : <textarea name="maincontent"></textarea><p>
-			類別ID : <select name="categoryid">
+			<div>使用者帳號 : <input type="text" name="authorid" /></div>
+			<div>標題 : <input type="text" name="title"/></div>
+			<div>文章內容 : <textarea name="maincontent"></textarea></div>
+			<div>類別ID : <select name="categoryid">
     				<option value="1">公告</option>
     				<option value="2">心情抒發</option>
     				<option value="3">好康情報</option>
     				<option value="4">其他</option>
-					</select>
-			 狀態 : <select name="state">
+					</select></div>
+			<div> 狀態 : <select name="state">
     				<option value="正常">正常</option>
     				<option value="待審核">待審核</option>
     				<option value="隱蔽">隱蔽</option>
-					</select>		 				
-			圖片:<input type="file" name="img">	
+					</select>	</div>	 				
+			<div>圖片:<input type="file" name="img">	</div>
 			<button id="submit" type="submit">確定</button>	
 	</form>
 	

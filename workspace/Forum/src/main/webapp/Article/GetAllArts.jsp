@@ -34,15 +34,15 @@
 				<th>刪除</th>
 				<c:forEach items="${arts}" var="art" varStatus="s">
 					<tr>
-						<td>N</td>
-						<td>${art.artid}
-						<td>${art.title}
-						<td>${art.maincontent}
-						<td>${art.authorid}
-						<td>${art.categoryname}
-						<td>${art.createtime}
-						<td>${art.updatetime}
-						<td>N</td>
+						<td><img src="${art.img}"></td>
+						<td>${art.artid}</td>
+						<td>${art.title}</td>
+						<td>${art.maincontent}</td>
+						<td>${art.authorid}</td>
+						<td>${art.categoryname}</td>
+						<td>${art.createtime}</td>
+						<td>${art.updatetime}</td>						
+						<td>${art.state}</td>
 						<td>
 							<form action="../GetArtForU?artid=${art.artid}" method="post">
 								<button type="submit" id="update">Update</button>

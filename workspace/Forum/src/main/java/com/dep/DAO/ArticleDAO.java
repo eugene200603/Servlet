@@ -1,17 +1,22 @@
 package com.dep.DAO;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-
+import javax.servlet.http.Part;
 import javax.sql.DataSource;
 
 import com.dep.bean.ArticleBean;
@@ -30,6 +35,21 @@ public class ArticleDAO  {
 		
 	}
 	
+	//Image(Base64)
+	public String ImageToBase64(File image)  {
+		 try (FileInputStream fileInputStreamReader = new FileInputStream(image)) {
+		byte[] bytes = new byte[(int)image.length()];
+		    
+				fileInputStreamReader.read(bytes);
+		 return Base64.getEncoder().encodeToString(bytes);}
+			 catch (IOException e) {
+				e.printStackTrace();
+			}
+		return null;
+		    
+		}
+	
+	
 	// C
 	public boolean  CreateArt(ArticleBean art) {
 		
@@ -42,7 +62,7 @@ public class ArticleDAO  {
 //					+ "           ,[CreateTime]\r\n"
 //					+ "           ,[UpdateTime])\r\n"
 					+"				,[State]"
-					+"				,[ImagePath])"
+					+"				,[Image])"
 					+ "     VALUES(?,?,?,?,?,?)";
 						
 				try (Connection conn=conn();				
@@ -99,6 +119,9 @@ public class ArticleDAO  {
 					art.setCategoryid(rs.getString("categoryid"));
 					art.setCreatetime(rs.getString("createtime"));
 					art.setUpdatetime(rs.getString("updatetime"));
+					art.setUpdatetime(rs.getString("state"));
+					art.setUpdatetime(rs.getString("image"));
+					
 				}
 				
 				return art;
@@ -126,6 +149,7 @@ public class ArticleDAO  {
 				
 				while(rs.next()) {
 					art=new ArticleBean();
+					art.setImg(rs.getString("image"));
 					art.setArtid(rs.getString("articleid"));
 					art.setTitle(rs.getString("title"));
 					art.setMaincontent(rs.getString("maincontent"));
@@ -134,6 +158,8 @@ public class ArticleDAO  {
 					art.setCategoryname(rs.getString("categoryname"));
 					art.setCreatetime(rs.getString("createtime"));
 					art.setUpdatetime(rs.getString("updatetime"));
+					art.setState(rs.getString("state"));
+					
 					arts.add(art);
 				}
 				
@@ -163,6 +189,7 @@ public class ArticleDAO  {
 				
 				while(rs.next()) {
 					art=new ArticleBean();
+					art.setImg(rs.getString("image"));
 					art.setArtid(rs.getString("articleid"));
 					art.setTitle(rs.getString("title"));
 					art.setMaincontent(rs.getString("maincontent"));
@@ -171,6 +198,8 @@ public class ArticleDAO  {
 					art.setCategoryname(rs.getString("categoryname"));
 					art.setCreatetime(rs.getString("createtime"));
 					art.setUpdatetime(rs.getString("updatetime"));
+					art.setState(rs.getString("state"));
+					
 					arts.add(art);
 				}
 				
@@ -197,6 +226,7 @@ public class ArticleDAO  {
 				
 				while(rs.next()) {
 					art=new ArticleBean();
+					art.setImg(rs.getString("image"));
 					art.setArtid(rs.getString("articleid"));
 					art.setTitle(rs.getString("title"));
 					art.setMaincontent(rs.getString("maincontent"));
@@ -205,6 +235,8 @@ public class ArticleDAO  {
 					art.setCategoryname(rs.getString("categoryname"));
 					art.setCreatetime(rs.getString("createtime"));
 					art.setUpdatetime(rs.getString("updatetime"));
+					art.setState(rs.getString("state"));
+					
 					arts.add(art);
 				}
 				
@@ -229,6 +261,8 @@ public class ArticleDAO  {
 				+ "      ,[CategoryID]=?\r\n"
 //				+ "      ,[CreateTime]=?\r\n"
 //				+ "      ,[UpdateTime]=?\r\n"
+				+"       ,State=?       \r\n"
+				+"       ,Image=?       \r\n"				
 				+ " WHERE ArticleID=?";
 		
 		try (Connection conn=conn();				
@@ -240,7 +274,10 @@ public class ArticleDAO  {
 				stmt.setString(4,art.getCategoryid());
 //				stmt.setString(5,art.getCreatetime());
 //				stmt.setString(6,art.getUpdatetime());
-				stmt.setString(5,art.getArtid());
+				stmt.setString(5,art.getState());
+				stmt.setString(6,art.getImg());
+				stmt.setString(7,art.getArtid());
+				
 								
 				int updateCount = stmt.executeUpdate();
 				if(updateCount>=1) {					
