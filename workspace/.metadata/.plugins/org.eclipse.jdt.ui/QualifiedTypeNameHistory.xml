@@ -9,4 +9,6 @@
     <fullyQualifiedTypeName name="java.io.PrintWriter"/>
     <fullyQualifiedTypeName name="javax.servlet.annotation.WebInitParam"/>
     <fullyQualifiedTypeName name="com.dep.bean.TopicBean"/>
+    <fullyQualifiedTypeName name="java.util.Base64"/>
+    <fullyQualifiedTypeName name="org.apache.tomcat.util.http.fileupload.IOUtils"/>
 </qualifiedTypeNameHistroy>

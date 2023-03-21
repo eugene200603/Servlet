@@ -1,11 +1,14 @@
 package com.dep.Article;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Base64;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -16,6 +19,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import javax.sql.DataSource;
 
 import com.dep.DAO.ArticleDAO;
@@ -42,10 +46,27 @@ public class UpdateArt extends HttpServlet {
 		String categoryid=request.getParameter("updateCategoryid");
 		String createtime=request.getParameter("updateCreatetime");
 		String updatetime=request.getParameter("updateUpdatetime");
-		String updatestate=request.getParameter("updatestate");
-		String updateimg=request.getParameter("updateimg");
+		String updatestate=request.getParameter("updatestate");		
+		Part img = request.getPart("updateimg");
 		String artid=request.getParameter("artid");
+		
+		InputStream inputStream = img.getInputStream();
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        byte[] buffer = new byte[4096];
+        int bytesRead = -1;
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            outputStream.write(buffer, 0, bytesRead);
+        }
+        byte[] bytes = outputStream.toByteArray();
+		String base64Image = Base64.getEncoder().encodeToString(bytes);
+		
+		
+		
+		
+		
 			ArticleBean art=new ArticleBean();
+			
+			
 			
 			art.setTitle(title);
 			art.setMaincontent(maincontent);
@@ -54,7 +75,7 @@ public class UpdateArt extends HttpServlet {
 			art.setCreatetime(createtime);
 			art.setUpdatetime(updatetime);
 			art.setState(updatestate);;
-			art.setImg(updateimg);
+			art.setImg(base64Image);
 			art.setArtid(artid);
 				
 			ArticleDAO dao=new ArticleDAO();

@@ -2,103 +2,114 @@
 <html>
 
 <head>
-	<meta charset="UTF-8">
-	<title>Insert Article data</title>
-	<style>
-	form {
-  width: 500px;
-  margin: 0 auto;
+<meta charset="UTF-8">
+<title>Insert Article data</title>
+<style>
+form {
+	width: 500px;
+	margin: 0 auto;
 }
 
 form h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
+	font-size: 24px;
+	margin-bottom: 20px;
 }
 
-form input[type="text"], 
-form textarea {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  border: none;
-  box-shadow: inset 0px 0px 2px rgba(0, 0, 0, 0.5);
+form input[type="text"], form textarea {
+	width: 100%;
+	padding: 10px;
+	margin-bottom: 10px;
+	border-radius: 5px;
+	border: none;
+	box-shadow: inset 0px 0px 2px rgba(0, 0, 0, 0.5);
 }
 
 form select {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  border: none;
-  box-shadow: inset 0px 0px 2px rgba(0, 0, 0, 0.5);
+	width: 100%;
+	padding: 10px;
+	margin-bottom: 10px;
+	border-radius: 5px;
+	border: none;
+	box-shadow: inset 0px 0px 2px rgba(0, 0, 0, 0.5);
 }
 
 form input[type="file"] {
-  margin-bottom: 10px;
+	margin-bottom: 10px;
 }
 
-#submit{
-  background-color: #007bff;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  
+#submit {
+	background-color: #007bff;
+	color: white;
+	padding: 10px 20px;
+	border-radius: 5px;
+	border: none;
+	cursor: pointer;
+	transition: background-color 0.3s;
 }
 
 #submit:hover {
-  background-color: #0062cc;
+	background-color: #0062cc;
 }
-#submitdiv ,h1{
-text-align:center;
+
+#submitdiv, h1 {
+	text-align: center;
 }
-	</style>	
-	<!--<script>
-	  $(document).ready(function() {
-	    $('#submit').on('click', function(e) {
-	      e.preventDefault();
-	      let data= new FormData($('#createart')[0])
-	      $.ajax({
-	        url: '../CreateArt',
-	        type: 'POST',
-	        data:data,
-	        processData: false,
-	        contentType: false,
-	        success: function(response) {
-	        	  console.log('上傳文字成功');
-	        },
-	        error: function(xhr, status, error) {
-	        	console.log('上傳文字錯誤');
-	        }
-	      });
-	  });	
-	</script> -->
+</style>
+<script>
+	function previewImage() {
+		let preview = document.querySelector('#preview');
+		let file = document.querySelector('input[type=file]').files[0];
+		let reader = new FileReader();
+
+		reader.addEventListener('load', function() {
+			preview.src = reader.result;
+			document.getElementById('preview').style.display = 'block';
+		}, false);
+
+		if (file) {
+			reader.readAsDataURL(file);
+		}
+	}
+</script>
 </head>
 
 <body>
 	<h1>新增文章資料</h1>
-	<form method="post" action="../CreateArt" id="createart" enctype="multipart/form-data" >
-			<div>使用者帳號 : <input type="text" name="authorid" /></div>
-			<div>標題 : <input type="text" name="title"/></div>
-			<div>文章內容 : <textarea name="maincontent"></textarea></div>
-			<div>類別ID : <select name="categoryid">
-    				<option value="1">公告</option>
-    				<option value="2">心情抒發</option>
-    				<option value="3">好康情報</option>
-    				<option value="4">其他</option>
-					</select></div>
-			<div> 狀態 : <select name="state">
-    				<option value="正常">正常</option>
-    				<option value="待審核">待審核</option>
-    				<option value="隱蔽">隱蔽</option>
-					</select>	</div>	 				
-			<div>圖片:<input type="file" name="img">	</div>
-			<button id="submit" type="submit">確定</button>	
+	<form method="post" action="../CreateArt" id="createart"
+		enctype="multipart/form-data">
+		<div>
+			使用者帳號 : <input type="text" name="authorid" />
+		</div>
+		<div>
+			標題 : <input type="text" name="title" />
+		</div>
+		<div>
+			文章內容 :
+			<textarea name="maincontent"></textarea>
+		</div>
+		<div>
+			類別ID : <select name="categoryid">
+				<option value="1">公告</option>
+				<option value="2">心情抒發</option>
+				<option value="3">好康情報</option>
+				<option value="4">其他</option>
+			</select>
+		</div>
+		<div>
+			狀態 : <select name="state">
+				<option value="正常">正常</option>
+				<option value="待審核">待審核</option>
+				<option value="隱蔽">隱蔽</option>
+			</select>
+		</div>
+		<div>
+			圖片:<input type="file" name="img" onchange="previewImage()"> <img
+				id="preview" src="#" alt="Preview"
+				style="max-width: 150px; max-height: 150px; display: none;">
+		</div>
+		<button id="submit" type="submit">確定</button>
 	</form>
-	
+
 </body>
 
 </html>

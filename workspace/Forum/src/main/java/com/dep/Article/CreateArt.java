@@ -1,5 +1,6 @@
 package com.dep.Article;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Base64;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -21,6 +23,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import javax.sql.DataSource;
+
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 
 import com.dep.DAO.ArticleDAO;
 import com.dep.bean.*;
@@ -51,7 +55,15 @@ public class CreateArt extends HttpServlet {
 		String createtime=request.getParameter("createtime");
 		String updatetime=request.getParameter("updatetime");	
 		
-		
+		InputStream inputStream = img.getInputStream();
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        byte[] buffer = new byte[4096];
+        int bytesRead = -1;
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            outputStream.write(buffer, 0, bytesRead);
+        }
+        byte[] bytes = outputStream.toByteArray();
+		String base64Image = Base64.getEncoder().encodeToString(bytes);
 		
 		ArticleBean art=new ArticleBean();
 			
@@ -60,7 +72,7 @@ public class CreateArt extends HttpServlet {
 			art.setAuthorid(authorid);
 			art.setCategoryid(categoryid);
 			art.setState(state);
-			art.setImg(img);
+			art.setImg(base64Image);
 			/*art.setCreatetime(createtime);
 			art.setUpdatetime(updatetime);
 			art.setArtid(artid);*/

@@ -21,329 +21,268 @@ import javax.sql.DataSource;
 
 import com.dep.bean.ArticleBean;
 
-public class ArticleDAO  {
+public class ArticleDAO {
 
-	
-	//Connection
+	// Connection
 	public Connection conn() throws NamingException, SQLException {
-		String Sourse="java:/comp/env/jdbc/Department";
+		String Sourse = "java:/comp/env/jdbc/Department";
 		Context context = new InitialContext();
-		DataSource ds=(DataSource)context
-			.lookup(Sourse);
-		 return ds.getConnection();
-		
-		
-	}
-	
-	//Image(Base64)
-	public String ImageToBase64(Part image)  {
-		 try (
-				InputStream inputStream = image.getInputStream();) {
-			 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		        byte[] buffer = new byte[4096];
-		        int bytesRead = -1;
-		        while ((bytesRead = inputStream.read(buffer)) != -1) {
-		            outputStream.write(buffer, 0, bytesRead);
-		        }
-		        byte[] bytes = outputStream.toByteArray();
-		        return Base64.getEncoder().encodeToString(bytes);}
-			 catch (IOException e) {
-				e.printStackTrace();
-			}
-		return null;
-		    
-		}
-	
-	
-	// C
-	public boolean  CreateArt(ArticleBean art) {
-		
-			String sql = "INSERT INTO [dbo].[Article]\r\n"
-//					+ "           ([ArticleID]\r\n"
-					+ "           ([Title]\r\n"
-					+ "           ,[MainContent]\r\n"
-					+ "           ,[AuthorID]\r\n"
-					+ "           ,[CategoryID]\r\n"
-//					+ "           ,[CreateTime]\r\n"
-//					+ "           ,[UpdateTime])\r\n"
-					+"				,[State]"
-					+"				,[Image])"
-					+ "     VALUES(?,?,?,?,?,?)";
-			Connection conn = null;
-			PreparedStatement stmt = null;
-			
-				try { conn=conn();				
-					stmt = conn.prepareStatement(sql);
-					
-					
-					// 讀取圖片檔案
-			        File imageFile = new File(art.getImg());
-			        try (FileInputStream inputStream = new FileInputStream(imageFile)) {
-						byte[] imageData = new byte[(int) imageFile.length()];
-						inputStream.read(imageData);
+		DataSource ds = (DataSource) context.lookup(Sourse);
+		return ds.getConnection();
 
-						// 將圖片轉換為base64編碼
-						String imageBase64 = Base64.getEncoder().encodeToString(imageData);
-						
-						
-//					stmt.setString(1,art.getArtid());
-						stmt.setString(1,art.getTitle());
-						stmt.setString(2,art.getMaincontent());
-						stmt.setString(3,art.getAuthorid());
-						stmt.setString(4,art.getCategoryid());
-//					stmt.setString(6,art.getCreatetime());
-//					stmt.setString(7,art.getUpdatetime());
-						stmt.setString(5,art.getState());
-						stmt.setString(6,imageBase64);
-					}
-			        int updateCount = stmt.executeUpdate();
-				if(updateCount>=1) {					
-					return true;
-				}else {					
-					return false;
-				}		
-				
+	}
+
+	// C
+	public boolean CreateArt(ArticleBean art) {
+
+		String sql = "INSERT INTO [dbo].[Article]\r\n"
+				+ "           ([Title]\r\n"
+				+ "           ,[MainContent]\r\n"		
+				+ "           ,[AuthorID]\r\n"
+				+ "           ,[CategoryID]\r\n"
+				+ "				,[State]"
+				+ "				,[Image])"
+				+ "     VALUES(?,?,?,?,?,?)";
+		Connection conn = null;
+		PreparedStatement stmt = null;
+
+		try {
+			conn = conn();
+			stmt = conn.prepareStatement(sql);
+
+			stmt.setString(1, art.getTitle());
+			stmt.setString(2, art.getMaincontent());
+			stmt.setString(3, art.getAuthorid());
+			stmt.setString(4, art.getCategoryid());
+			stmt.setString(5, art.getState());
+			stmt.setString(6, art.getImg());
+
+			int updateCount = stmt.executeUpdate();
+			if (updateCount >= 1) {
+				return true;
+			} else {
+				return false;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		} catch (NamingException e) {
+			e.printStackTrace();
+
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+				if (conn != null)
+					conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
+			}
 
-			} catch (NamingException e) {
-				e.printStackTrace();
-	}catch (IOException e) {
-        e.printStackTrace();
-    } finally {    	
-        try {       	
-            if (stmt != null) stmt.close();
-            if (conn != null) conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } 
-   
-    
-}
-			return false;	
-	}
-//Insert Image
-	
-	
-	
-	
-	//R-one
-	public ArticleBean findArticleByID(String artid) {
-		
-			
-			String sql = "SELECT * From Article where ArticleID=?";
-			try (Connection conn=conn();
-					PreparedStatement stmt = conn.prepareStatement(sql);){
-					stmt.setString(1, artid);
-					ResultSet rs = stmt.executeQuery();
-					ArticleBean art=new ArticleBean();
-				
-				if(rs.next()) {
-					art.setArtid(rs.getString("articleid"));
-					art.setTitle(rs.getString("title"));
-					art.setMaincontent(rs.getString("maincontent"));
-					art.setAuthorid(rs.getString("authorid"));
-					art.setCategoryid(rs.getString("categoryid"));
-					art.setCreatetime(rs.getString("createtime"));
-					art.setUpdatetime(rs.getString("updatetime"));
-					art.setState(rs.getString("state"));
-					art.setImg(rs.getString("image"));
-					
-				}
-				
-				return art;
-			} catch (SQLException e) {				
-				e.printStackTrace();
-			} catch (NamingException e) {				
-				e.printStackTrace();
-			}
-			
-		return null;
-	}
-	//findByCategory
-	public List<ArticleBean> findArticleByCat(String categoryid) {	
-		String sql = "SELECT * From Article \r\n"
-				+ "INNER JOIN Category ON Article.CategoryID = Category.CategoryID \r\n"
-				+ "where Article.CategoryID=?";
-		try (Connection conn=conn();
-				PreparedStatement stmt = conn.prepareStatement(sql);){
-				stmt.setString(1, categoryid);
-				ResultSet rs = stmt.executeQuery();
-				
-			
-				List<ArticleBean>arts=new ArrayList<>();
-				ArticleBean art=null;
-				
-				while(rs.next()) {
-					art=new ArticleBean();
-					art.setImg(rs.getString("image"));
-					art.setArtid(rs.getString("articleid"));
-					art.setTitle(rs.getString("title"));
-					art.setMaincontent(rs.getString("maincontent"));
-					art.setAuthorid(rs.getString("authorid"));
-					art.setCategoryid(rs.getString("categoryid"));
-					art.setCategoryname(rs.getString("categoryname"));
-					art.setCreatetime(rs.getString("createtime"));
-					art.setUpdatetime(rs.getString("updatetime"));
-					art.setState(rs.getString("state"));
-					
-					arts.add(art);
-				}
-				
-				return arts;
-		} catch (SQLException e) {				
-			e.printStackTrace();
-		} catch (NamingException e) {				
-			e.printStackTrace();
-		}
-		
-	return null;
-}
-	
-	
-	public List<ArticleBean> findArticleByMem(String authorid) {	
-		String sql = "SELECT * From Article \r\n"
-				+ "INNER JOIN Category ON Article.CategoryID = Category.CategoryID \r\n"
-				+ "where Article.AuthorID=?";
-		try (Connection conn=conn();
-				PreparedStatement stmt = conn.prepareStatement(sql);){
-				stmt.setString(1, authorid);
-				ResultSet rs = stmt.executeQuery();
-				
-			
-				List<ArticleBean>arts=new ArrayList<>();
-				ArticleBean art=null;
-				
-				while(rs.next()) {
-					art=new ArticleBean();
-					art.setImg(rs.getString("image"));
-					art.setArtid(rs.getString("articleid"));
-					art.setTitle(rs.getString("title"));
-					art.setMaincontent(rs.getString("maincontent"));
-					art.setAuthorid(rs.getString("authorid"));
-					art.setCategoryid(rs.getString("categoryid"));
-					art.setCategoryname(rs.getString("categoryname"));
-					art.setCreatetime(rs.getString("createtime"));
-					art.setUpdatetime(rs.getString("updatetime"));
-					art.setState(rs.getString("state"));
-					
-					arts.add(art);
-				}
-				
-				return arts;
-		} catch (SQLException e) {				
-			e.printStackTrace();
-		} catch (NamingException e) {				
-			e.printStackTrace();
-		}
-		
-	return null;
-}
-		// R-ALL
-		
-		public List<ArticleBean> findAllArticle() {			
-			String sql ="SELECT * From Article INNER JOIN Category ON Article.CategoryID = Category.CategoryID";
-			
-			try (Connection conn=conn();
-				
-				PreparedStatement stmt = conn.prepareStatement(sql);){			
-				ResultSet rs = stmt.executeQuery();
-				List<ArticleBean>arts=new ArrayList<>();
-				ArticleBean art=null;
-				
-				while(rs.next()) {
-					art=new ArticleBean();
-					art.setImg(rs.getString("image"));
-					art.setArtid(rs.getString("articleid"));
-					art.setTitle(rs.getString("title"));
-					art.setMaincontent(rs.getString("maincontent"));
-					art.setAuthorid(rs.getString("authorid"));
-					art.setCategoryid(rs.getString("categoryid"));
-					art.setCategoryname(rs.getString("categoryname"));
-					art.setCreatetime(rs.getString("createtime"));
-					art.setUpdatetime(rs.getString("updatetime"));
-					art.setState(rs.getString("state"));
-					
-					arts.add(art);
-				}
-				
-				return arts;
-				
-			} catch (NamingException e) {				
-				e.printStackTrace();
-			} catch (SQLException e) {				
-				e.printStackTrace();
-			}
-			return null;
-		}
-		
-		
-		
-		// U
-	public boolean updateArticle(ArticleBean art) {
-		String sql = "UPDATE [dbo].[Article]"				
-				+ "SET   [Title]=? \r\n"
-				+ "      ,[MainContent]=?\r\n"
-				+ "      ,[AuthorID]=?\r\n"
-				+ "      ,[CategoryID]=?\r\n"
-//				+ "      ,[CreateTime]=?\r\n"
-//				+ "      ,[UpdateTime]=?\r\n"
-				+"       ,State=?       \r\n"
-				+"       ,Image=?       \r\n"				
-				+ " WHERE ArticleID=?";
-		
-		try (Connection conn=conn();				
-				PreparedStatement stmt = conn.prepareStatement(sql);){
-				
-				stmt.setString(1,art.getTitle());
-				stmt.setString(2,art.getMaincontent());
-				stmt.setString(3,art.getAuthorid());
-				stmt.setString(4,art.getCategoryid());
-//				stmt.setString(5,art.getCreatetime());
-//				stmt.setString(6,art.getUpdatetime());
-				stmt.setString(5,art.getState());
-				stmt.setString(6,art.getImg());
-				stmt.setString(7,art.getArtid());
-				
-								
-				int updateCount = stmt.executeUpdate();
-				if(updateCount>=1) {					
-					return true;
-				}else {
-					return false;				
-				}		
-	
-		} catch (SQLException e) {
-			e.printStackTrace();		
-		} catch (NamingException e) {
-			e.printStackTrace();			
 		}
 		return false;
-	}	
-		
-		
-		// D	
-		public boolean  deleteArt(String artid){
-				String sql = "DELETE FROM [dbo].[Article]\r\n"
-						+ "      WHERE articleid=?";
-				
-				try (Connection conn=conn();
-						PreparedStatement stmt = conn.prepareStatement(sql);){
-						stmt.setString(1, artid);						
-						
-					int updateCount = stmt.executeUpdate();
-					if(updateCount>=1) {						
-						return true;
-					}else {
-						return false;						
-					}							
-				} catch (SQLException e) {					
-					e.printStackTrace();
-				} catch (NamingException e) {					
-					e.printStackTrace();
-				}
-			
-				return false;
+	}
+
+
+	// R-one
+	public ArticleBean findArticleByID(String artid) {
+
+		String sql = "SELECT * From Article where ArticleID=?";
+		try (Connection conn = conn(); PreparedStatement stmt = conn.prepareStatement(sql);) {
+			stmt.setString(1, artid);
+			ResultSet rs = stmt.executeQuery();
+			ArticleBean art = new ArticleBean();
+
+			if (rs.next()) {
+				art.setArtid(rs.getString("articleid"));
+				art.setTitle(rs.getString("title"));
+				art.setMaincontent(rs.getString("maincontent"));
+				art.setAuthorid(rs.getString("authorid"));
+				art.setCategoryid(rs.getString("categoryid"));
+				art.setCreatetime(rs.getString("createtime"));
+				art.setUpdatetime(rs.getString("updatetime"));
+				art.setState(rs.getString("state"));
+				art.setImg(rs.getString("image"));
+
+			}
+
+			return art;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e) {
+			e.printStackTrace();
 		}
-		
+
+		return null;
+	}
+
+	// findByCategory
+	public List<ArticleBean> findArticleByCat(String categoryid) {
+		String sql = "SELECT * From Article \r\n"
+				+ "INNER JOIN Category ON Article.CategoryID = Category.CategoryID \r\n" + "where Article.CategoryID=?";
+		try (Connection conn = conn(); PreparedStatement stmt = conn.prepareStatement(sql);) {
+			stmt.setString(1, categoryid);
+			ResultSet rs = stmt.executeQuery();
+
+			List<ArticleBean> arts = new ArrayList<>();
+			ArticleBean art = null;
+
+			while (rs.next()) {
+				art = new ArticleBean();
+				art.setImg(rs.getString("image"));
+				art.setArtid(rs.getString("articleid"));
+				art.setTitle(rs.getString("title"));
+				art.setMaincontent(rs.getString("maincontent"));
+				art.setAuthorid(rs.getString("authorid"));
+				art.setCategoryid(rs.getString("categoryid"));
+				art.setCategoryname(rs.getString("categoryname"));
+				art.setCreatetime(rs.getString("createtime"));
+				art.setUpdatetime(rs.getString("updatetime"));
+				art.setState(rs.getString("state"));
+
+				arts.add(art);
+			}
+
+			return arts;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	public List<ArticleBean> findArticleByMem(String authorid) {
+		String sql = "SELECT * From Article \r\n"
+				+ "INNER JOIN Category ON Article.CategoryID = Category.CategoryID \r\n" + "where Article.AuthorID=?";
+		try (Connection conn = conn(); PreparedStatement stmt = conn.prepareStatement(sql);) {
+			stmt.setString(1, authorid);
+			ResultSet rs = stmt.executeQuery();
+
+			List<ArticleBean> arts = new ArrayList<>();
+			ArticleBean art = null;
+
+			while (rs.next()) {
+				art = new ArticleBean();
+				art.setImg(rs.getString("image"));
+				art.setArtid(rs.getString("articleid"));
+				art.setTitle(rs.getString("title"));
+				art.setMaincontent(rs.getString("maincontent"));
+				art.setAuthorid(rs.getString("authorid"));
+				art.setCategoryid(rs.getString("categoryid"));
+				art.setCategoryname(rs.getString("categoryname"));
+				art.setCreatetime(rs.getString("createtime"));
+				art.setUpdatetime(rs.getString("updatetime"));
+				art.setState(rs.getString("state"));
+
+				arts.add(art);
+			}
+
+			return arts;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+	// R-ALL
+
+	public List<ArticleBean> findAllArticle() {
+		String sql = "SELECT * From Article INNER JOIN Category ON Article.CategoryID = Category.CategoryID";
+
+		try (Connection conn = conn();
+
+				PreparedStatement stmt = conn.prepareStatement(sql);) {
+			ResultSet rs = stmt.executeQuery();
+			List<ArticleBean> arts = new ArrayList<>();
+			ArticleBean art = null;
+
+			while (rs.next()) {
+				art = new ArticleBean();
+				art.setImg(rs.getString("image"));
+				art.setArtid(rs.getString("articleid"));
+				art.setTitle(rs.getString("title"));
+				art.setMaincontent(rs.getString("maincontent"));
+				art.setAuthorid(rs.getString("authorid"));
+				art.setCategoryid(rs.getString("categoryid"));
+				art.setCategoryname(rs.getString("categoryname"));
+				art.setCreatetime(rs.getString("createtime"));
+				art.setUpdatetime(rs.getString("updatetime"));
+				art.setState(rs.getString("state"));
+
+				arts.add(art);
+			}
+
+			return arts;
+
+		} catch (NamingException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	// U
+	public boolean updateArticle(ArticleBean art) {
+		String sql = "UPDATE [dbo].[Article]" 
+					+ "SET   [Title]=? \r\n"
+					+ "      ,[MainContent]=?\r\n"
+					+ "      ,[AuthorID]=?\r\n"
+					+ "      ,[CategoryID]=?\r\n"
+					+ "       ,State=?       \r\n"
+					+ "       ,Image=?       \r\n"
+					+ " WHERE ArticleID=?";
+
+		try (Connection conn = conn(); PreparedStatement stmt = conn.prepareStatement(sql);) {
+
+			stmt.setString(1, art.getTitle());
+			stmt.setString(2, art.getMaincontent());
+			stmt.setString(3, art.getAuthorid());
+			stmt.setString(4, art.getCategoryid());
+			stmt.setString(5, art.getState());
+			stmt.setString(6, art.getImg());
+			stmt.setString(7, art.getArtid());
+
+			int updateCount = stmt.executeUpdate();
+			if (updateCount >= 1) {
+				return true;
+			} else {
+				return false;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	// D
+	public boolean deleteArt(String artid) {
+		String sql = "DELETE FROM [dbo].[Article]\r\n" + "      WHERE articleid=?";
+
+		try (Connection conn = conn(); PreparedStatement stmt = conn.prepareStatement(sql);) {
+			stmt.setString(1, artid);
+
+			int updateCount = stmt.executeUpdate();
+			if (updateCount >= 1) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+
+		return false;
+	}
+
 }

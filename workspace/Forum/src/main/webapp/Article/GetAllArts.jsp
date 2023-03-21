@@ -9,6 +9,13 @@
 <head>
 <meta charset="UTF-8">
 <title>文章資料</title>
+<style>
+td{
+ max-width: 180px; /* 设置td元素的宽度 */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;}
+</style>
 </head>
 
 <body>

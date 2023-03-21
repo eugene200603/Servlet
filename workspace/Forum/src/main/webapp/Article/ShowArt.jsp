@@ -53,6 +53,23 @@ form input[type="submit"]:hover {
 	background-color: #0062cc;
 }
 </style>
+<script>
+	function previewImage() {
+		let preview = document.querySelector('#preview');
+		let file = document.querySelector('input[type=file]').files[0];
+		let reader = new FileReader();
+
+		reader.addEventListener('load', function() {
+			preview.src = reader.result;
+			document.getElementById('preview').style.display = 'block';
+		}, false);
+
+		if (file) {
+			reader.readAsDataURL(file);
+		}
+	}
+</script>
+
 </head>
 <body>
 	<h2>文章 資料</h2>
@@ -82,8 +99,12 @@ form input[type="submit"]:hover {
 				<option value="正常">正常</option>
 				<option value="待審核">待審核</option>
 				<option value="隱蔽">隱蔽</option>
-			</select> 圖片:<input type="file" name="updateimg">
-		<p>
+				</select>
+			<div>
+			圖片:<input type="file" name="updateimg" onchange="previewImage()"> <img
+				id="preview" src="#" alt="Preview"
+				style="max-width: 150px; max-height: 150px; display: none;">
+		</div>
 			<input type="submit" value="確定" />
 	</form>
 
