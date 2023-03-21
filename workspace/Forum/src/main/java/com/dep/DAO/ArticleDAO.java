@@ -36,12 +36,17 @@ public class ArticleDAO  {
 	}
 	
 	//Image(Base64)
-	public String ImageToBase64(File image)  {
-		 try (FileInputStream fileInputStreamReader = new FileInputStream(image)) {
-		byte[] bytes = new byte[(int)image.length()];
-		    
-				fileInputStreamReader.read(bytes);
-		 return Base64.getEncoder().encodeToString(bytes);}
+	public String ImageToBase64(Part image)  {
+		 try (
+				InputStream inputStream = image.getInputStream();) {
+			 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		        byte[] buffer = new byte[4096];
+		        int bytesRead = -1;
+		        while ((bytesRead = inputStream.read(buffer)) != -1) {
+		            outputStream.write(buffer, 0, bytesRead);
+		        }
+		        byte[] bytes = outputStream.toByteArray();
+		        return Base64.getEncoder().encodeToString(bytes);}
 			 catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -64,20 +69,34 @@ public class ArticleDAO  {
 					+"				,[State]"
 					+"				,[Image])"
 					+ "     VALUES(?,?,?,?,?,?)";
+			Connection conn = null;
+			PreparedStatement stmt = null;
+			
+				try { conn=conn();				
+					stmt = conn.prepareStatement(sql);
+					
+					
+					// 讀取圖片檔案
+			        File imageFile = new File(art.getImg());
+			        try (FileInputStream inputStream = new FileInputStream(imageFile)) {
+						byte[] imageData = new byte[(int) imageFile.length()];
+						inputStream.read(imageData);
+
+						// 將圖片轉換為base64編碼
+						String imageBase64 = Base64.getEncoder().encodeToString(imageData);
 						
-				try (Connection conn=conn();				
-					PreparedStatement stmt = conn.prepareStatement(sql);){
+						
 //					stmt.setString(1,art.getArtid());
-					stmt.setString(1,art.getTitle());
-					stmt.setString(2,art.getMaincontent());
-					stmt.setString(3,art.getAuthorid());
-					stmt.setString(4,art.getCategoryid());
+						stmt.setString(1,art.getTitle());
+						stmt.setString(2,art.getMaincontent());
+						stmt.setString(3,art.getAuthorid());
+						stmt.setString(4,art.getCategoryid());
 //					stmt.setString(6,art.getCreatetime());
 //					stmt.setString(7,art.getUpdatetime());
-					stmt.setString(5,art.getState());
-					stmt.setString(6,art.getImg());
-					
-				int updateCount = stmt.executeUpdate();
+						stmt.setString(5,art.getState());
+						stmt.setString(6,imageBase64);
+					}
+			        int updateCount = stmt.executeUpdate();
 				if(updateCount>=1) {					
 					return true;
 				}else {					
@@ -89,12 +108,20 @@ public class ArticleDAO  {
 
 			} catch (NamingException e) {
 				e.printStackTrace();
-		
-			}
-			
+	}catch (IOException e) {
+        e.printStackTrace();
+    } finally {    	
+        try {       	
+            if (stmt != null) stmt.close();
+            if (conn != null) conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } 
+   
+    
+}
 			return false;	
 	}
-		
 //Insert Image
 	
 	
@@ -119,8 +146,8 @@ public class ArticleDAO  {
 					art.setCategoryid(rs.getString("categoryid"));
 					art.setCreatetime(rs.getString("createtime"));
 					art.setUpdatetime(rs.getString("updatetime"));
-					art.setUpdatetime(rs.getString("state"));
-					art.setUpdatetime(rs.getString("image"));
+					art.setState(rs.getString("state"));
+					art.setImg(rs.getString("image"));
 					
 				}
 				

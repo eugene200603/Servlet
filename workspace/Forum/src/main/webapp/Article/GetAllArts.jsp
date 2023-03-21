@@ -34,7 +34,7 @@
 				<th>刪除</th>
 				<c:forEach items="${arts}" var="art" varStatus="s">
 					<tr>
-						<td><img src="${art.img}"></td>
+						<td><img src="data:image/png;base64,${art.img}"></td>
 						<td>${art.artid}</td>
 						<td>${art.title}</td>
 						<td>${art.maincontent}</td>

@@ -45,11 +45,13 @@ public class CreateArt extends HttpServlet {
 		String authorid=request.getParameter("authorid");
 		String categoryid=request.getParameter("categoryid");
 		String state=request.getParameter("state");
-//		Part part = request.getPart("img");
+		Part img = request.getPart("img");
 		
-		/*String artid=request.getParameter("artid");
+		String artid=request.getParameter("artid");
 		String createtime=request.getParameter("createtime");
-		String updatetime=request.getParameter("updatetime");	*/
+		String updatetime=request.getParameter("updatetime");	
+		
+		
 		
 		ArticleBean art=new ArticleBean();
 			
@@ -58,7 +60,7 @@ public class CreateArt extends HttpServlet {
 			art.setAuthorid(authorid);
 			art.setCategoryid(categoryid);
 			art.setState(state);
-//			art.setImg(img);
+			art.setImg(img);
 			/*art.setCreatetime(createtime);
 			art.setUpdatetime(updatetime);
 			art.setArtid(artid);*/
