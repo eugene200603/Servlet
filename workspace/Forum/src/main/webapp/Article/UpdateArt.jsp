@@ -25,8 +25,7 @@
 </table>
 	<script>
         alert("<%=request.getAttribute("message") %>" );   
-        window.history.go(-2);
-        location.reload();
+        location.href = "./Article/article.html";
        
       </script>
 </div>

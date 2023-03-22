@@ -189,6 +189,46 @@ public class ArticleDAO {
 
 		return null;
 	}
+	
+	// findByCategory
+		public List<ArticleBean> searchTitle(String search) {
+			String sql = "SELECT * From Article \r\n"
+					+ "INNER JOIN Category ON Article.CategoryID = Category.CategoryID \r\n" 
+					+ "where title LIKE ? COLLATE SQL_Latin1_General_CP1_CS_AS";
+			try (Connection conn = conn(); PreparedStatement stmt = conn.prepareStatement(sql);) {
+				stmt.setString(1, "%"+search+"%");
+				ResultSet rs = stmt.executeQuery();
+
+				List<ArticleBean> arts = new ArrayList<>();
+				ArticleBean art = null;
+
+				while (rs.next()) {
+					art = new ArticleBean();
+					art.setImg(rs.getString("image"));
+					art.setArtid(rs.getString("articleid"));
+					art.setTitle(rs.getString("title"));
+					art.setMaincontent(rs.getString("maincontent"));
+					art.setAuthorid(rs.getString("authorid"));
+					art.setCategoryid(rs.getString("categoryid"));
+					art.setCategoryname(rs.getString("categoryname"));
+					art.setCreatetime(rs.getString("createtime"));
+					art.setUpdatetime(rs.getString("updatetime"));
+					art.setState(rs.getString("state"));
+
+					arts.add(art);
+				}
+
+				return arts;
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (NamingException e) {
+				e.printStackTrace();
+			}
+
+			return null;
+		}
+	
+	
 	// R-ALL
 
 	public List<ArticleBean> findAllArticle() {

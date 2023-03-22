@@ -5,9 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>文章資料</title>
-
-<style>
-form {
+ <style>
+ form {
 	width: 500px;
 	margin: 0 auto;
 }
@@ -52,7 +51,7 @@ form input[type="submit"] {
 form input[type="submit"]:hover {
 	background-color: #0062cc;
 }
-</style>
+ </style>
 <script>
 	function previewImage() {
 		let preview = document.querySelector('#preview');
@@ -72,7 +71,8 @@ form input[type="submit"]:hover {
 
 </head>
 <body>
-	<h2>文章 資料</h2>
+ 
+        <h2>文章資料</h2>
 	<jsp:useBean id="art" scope="request" class="com.dep.bean.ArticleBean" />
 
 	<form method="post" action="./UpdateArt"
@@ -106,8 +106,15 @@ form input[type="submit"]:hover {
 				style="max-width: 150px; max-height: 150px; display: none;">
 		</div>
 			<input type="submit" value="確定" />
-	</form>
+	</form>           
+	
+        
+        
+    
 
 
 </body>
+
 </html>
+
+

@@ -59,11 +59,7 @@ public class UpdateArt extends HttpServlet {
         }
         byte[] bytes = outputStream.toByteArray();
 		String base64Image = Base64.getEncoder().encodeToString(bytes);
-		
-		
-		
-		
-		
+	
 			ArticleBean art=new ArticleBean();
 			
 			

@@ -16,12 +16,27 @@ td{
   overflow: hidden;
   text-overflow: ellipsis;}
 </style>
+
+<script>
+//更新文章
+$('').click(function () {    
+    $.ajax({
+        url: '../GetArtForU',
+        type: 'POST',
+        success: function (data) {              
+            $('#article-list').html(data);
+        },
+        error: function (xhr, status, error) {
+            console.log('AJAX 錯誤：' + status + ' ' + error);
+        }
+    });
+});
+</script>
+
 </head>
 
 <body>
 	<div>
-
-
 		<c:forEach items="${arts}" var="art" varStatus="s">
 			<c:set var="count" value="${s.count}" />
 		</c:forEach>
@@ -41,7 +56,7 @@ td{
 				<th>刪除</th>
 				<c:forEach items="${arts}" var="art" varStatus="s">
 					<tr>
-						<td><img src="data:image/png;base64,${art.img}"></td>
+						<td><img src="data:image/png;base64,${art.img}" style="max-width: 150px; max-height: 150px;"></td>
 						<td>${art.artid}</td>
 						<td>${art.title}</td>
 						<td>${art.maincontent}</td>
