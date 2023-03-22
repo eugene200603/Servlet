@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>文章資料</title>
+<title>修改文章資料</title>
  <style>
  form {
 	width: 500px;
@@ -14,6 +14,8 @@
 form h2 {
 	font-size: 24px;
 	margin-bottom: 20px;
+	margin-left: 150px;
+	align-items: center; 
 }
 
 form input[type="text"], form textarea {
@@ -38,7 +40,7 @@ form input[type="file"] {
 	margin-bottom: 10px;
 }
 
-form input[type="submit"] {
+form input[type="submit"],input[type="button"] {
 	background-color: #007bff;
 	color: white;
 	padding: 10px 20px;
@@ -46,11 +48,15 @@ form input[type="submit"] {
 	border: none;
 	cursor: pointer;
 	transition: background-color 0.3s;
+	align-items: center; 
+	margin-left: 120px;
+	margin-top: 5px;
 }
 
-form input[type="submit"]:hover {
+form input[type="submit"],input[type="button"]:hover {
 	background-color: #0062cc;
 }
+
  </style>
 <script>
 	function previewImage() {
@@ -67,16 +73,20 @@ form input[type="submit"]:hover {
 			reader.readAsDataURL(file);
 		}
 	}
+	function goBack() {
+		  window.history.go(-1);
+		}
 </script>
 
 </head>
 <body>
  
-        <h2>文章資料</h2>
+       
 	<jsp:useBean id="art" scope="request" class="com.dep.bean.ArticleBean" />
 
 	<form method="post" action="./UpdateArt"
 		onsubmit="return confirm('是否確定變更？')" enctype="multipart/form-data">
+		 <h2>修改文章資料</h2>
 		<input type="hidden" name="artid" value="${art.artid}" /> <input
 			type="hidden" name="updateCreatetime" value="${art.createtime}" /> <input
 			type="hidden" name="updateUpdatetime" value="${art.updatetime}" />
@@ -106,6 +116,7 @@ form input[type="submit"]:hover {
 				style="max-width: 150px; max-height: 150px; display: none;">
 		</div>
 			<input type="submit" value="確定" />
+			<input type="button" value="返回"  onclick="goBack()"/>
 	</form>           
 	
         

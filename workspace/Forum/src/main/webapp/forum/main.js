@@ -95,3 +95,16 @@ $('#new-article').click(function() {
 
 });
 
+//更新文章
+$('#update').click(function () {    
+    $.ajax({
+        url: '../GetArtForU',
+        type: 'POST',
+        success: function (data) {              
+            $('#article-list').html(data);
+        },
+        error: function (xhr, status, error) {
+            console.log('AJAX 錯誤：' + status + ' ' + error);
+        }
+    });
+});

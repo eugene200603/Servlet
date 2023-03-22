@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>文章資料</title>
+<title>修改文章資料</title>
 </head>
 <body style="background-color:#fdf5e6">
 <div align="center">
