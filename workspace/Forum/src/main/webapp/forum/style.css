@@ -128,9 +128,7 @@
 }
 
 
-#article-list th {
-    background-color: rgb(64, 128, 128)0c0;
-}
+
 
 #article-list td img {
     width: 200px;
@@ -159,7 +157,9 @@
 /* #article-list td:last-child button:last-child { */
 /*     margin-right: 0; */
 /* } */
-
+#article-list th {
+    background-color: rgb(64, 128, 128)0c0;
+}
 
 /* 設置表格行交替顯示背景色 */
 tr:nth-child(even) {

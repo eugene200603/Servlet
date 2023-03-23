@@ -60,10 +60,11 @@ public class UpdateArt extends HttpServlet {
         byte[] bytes = outputStream.toByteArray();
 		String base64Image = Base64.getEncoder().encodeToString(bytes);
 	
+		if(bytes.length>0) {
+			base64Image = Base64.getEncoder().encodeToString(bytes);
+		}
+		
 			ArticleBean art=new ArticleBean();
-			
-			
-			
 			art.setTitle(title);
 			art.setMaincontent(maincontent);
 			art.setAuthorid(authorid);
