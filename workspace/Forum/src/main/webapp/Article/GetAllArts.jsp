@@ -42,10 +42,11 @@ td{
 				<th>狀態</th>
 				<th>更新</th>
 				<th>刪除</th>
+				
 				<c:forEach items="${arts}" var="art" varStatus="s">
 					<tr>
 						<td><img src="data:image/png;base64,${art.img}" style="max-width: 150px; max-height: 150px;"></td>
-						<td>${art.artid}</td>
+						<td><a href="GetArt.jsp?artid=${art.artid}">${art.artid}</a></td>
 						<td>${art.title}</td>
 						<td>${art.maincontent}</td>
 						<td>${art.authorid}</td>

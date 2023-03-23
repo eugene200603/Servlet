@@ -60,11 +60,21 @@ public class UpdateArt extends HttpServlet {
         byte[] bytes = outputStream.toByteArray();
 		String base64Image = Base64.getEncoder().encodeToString(bytes);
 	
-		if(bytes.length>0) {
-			base64Image = Base64.getEncoder().encodeToString(bytes);
-		}
+		ArticleDAO dao=new ArticleDAO();
+		ArticleBean art=new ArticleBean();
 		
-			ArticleBean art=new ArticleBean();
+		if(bytes.length > 0) {
+	        // 若有上傳新的圖片，則將新的圖片轉成 base64 字串，並更新至資料庫
+	        
+	        art.setImg(base64Image);
+	       
+		} else {
+	        // 若沒有上傳新的圖片，則不更新資料庫的圖片欄位
+	        ArticleBean oldArt = dao.findArticleByID(artid);
+	        art.setImg(oldArt.getImg() != null ? oldArt.getImg() : "");
+	        
+		}
+			
 			art.setTitle(title);
 			art.setMaincontent(maincontent);
 			art.setAuthorid(authorid);
@@ -72,10 +82,10 @@ public class UpdateArt extends HttpServlet {
 			art.setCreatetime(createtime);
 			art.setUpdatetime(updatetime);
 			art.setState(updatestate);;
-			art.setImg(base64Image);
+			
 			art.setArtid(artid);
 				
-			ArticleDAO dao=new ArticleDAO();
+			
 			boolean success=dao.updateArticle(art)	;
 				
 				if(success) {
