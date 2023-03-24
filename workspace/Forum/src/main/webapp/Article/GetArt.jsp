@@ -20,7 +20,7 @@ table {
   border-collapse: separate;
   border-spacing: 0;
   border: 4px solid #34495E;
-  width: 20%; 
+  width: 25%; 
   margin: 30px auto;
   background-color: #feffed;
 }
@@ -29,14 +29,11 @@ td {
   text-align: center;
   padding: 10px;
   border: 1px solid #34495E;
+ width: 25%; 
+  max-width: 600px; 
+  word-wrap: break-word;
 }
 
-th {
-  background-color: #ebf0ff;
-  color: white;
-  padding: 10px;
-  border: 1px solid #34495E;
-}
 
 img {
   max-width: 150px;
@@ -77,7 +74,7 @@ button:hover {
 	<tr><td>標題</td><td>${art.title}</td></tr>
 	<tr><td>文章內容<td>${art.maincontent}</td></tr>
 	<tr><td>發文者帳號<td>${art.authorid}</td></tr>
-	<tr><td>類別<td>${art.categoryid}</td></tr>
+	<tr><td>類別<td>${art.categoryname}</td></tr>
 	<tr><td>發文日期<td>${art.createtime}</td></tr>
 	<tr><td>修改日期<td>${art.updatetime}</td></tr>
 	<tr><td>狀態<td>${art.state}</td></tr>

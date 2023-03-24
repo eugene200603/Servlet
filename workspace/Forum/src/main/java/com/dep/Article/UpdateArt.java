@@ -87,8 +87,10 @@ public class UpdateArt extends HttpServlet {
 				
 			
 			boolean success=dao.updateArticle(art)	;
-				
-				if(success) {
+			
+			if(title.length()>15) {
+				request.setAttribute("message", "標題長度過長,修改失敗");
+			}else if(success) {
 					
 					request.setAttribute("message", "修改成功");
 				}else {

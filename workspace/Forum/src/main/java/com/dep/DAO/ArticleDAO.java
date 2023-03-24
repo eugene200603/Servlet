@@ -88,7 +88,8 @@ public class ArticleDAO {
 	// R-one
 	public ArticleBean findArticleByID(String artid) {
 
-		String sql = "SELECT * From Article where ArticleID=?";
+		String sql = "SELECT * From Article \r\n"
+				+ "INNER JOIN Category ON Article.CategoryID = Category.CategoryID where ArticleID=?";
 		try (Connection conn = conn(); PreparedStatement stmt = conn.prepareStatement(sql);) {
 			stmt.setString(1, artid);
 			ResultSet rs = stmt.executeQuery();
@@ -100,6 +101,7 @@ public class ArticleDAO {
 				art.setMaincontent(rs.getString("maincontent"));
 				art.setAuthorid(rs.getString("authorid"));
 				art.setCategoryid(rs.getString("categoryid"));
+				art.setCategoryname(rs.getString("categoryname"));
 				art.setCreatetime(rs.getString("createtime"));
 				art.setUpdatetime(rs.getString("updatetime"));
 				art.setState(rs.getString("state"));

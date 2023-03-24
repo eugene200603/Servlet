@@ -151,10 +151,10 @@ form #preview {
 				value="${art.updatetime}" />
 			<div>
 				使用者帳號 : <input type="text" name="updateAuthorid"
-					value="${art.authorid}" />
+					value="${art.authorid}"  />
 			</div>
 			<div>
-				標題 : <input type="text" name="updateTitle" value="${art.title}" />
+				標題 : <input type="text" name="updateTitle" value="${art.title}" maxlength="15" />
 			</div>
 			文章內容 :
 			<textarea name="updateMaincontent">${art.maincontent}</textarea>

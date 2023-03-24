@@ -37,16 +37,24 @@
     /*滑鼠移入時顯示背景色 */
 }
 
-#sidebar h1 {
+#sidebar h2 {
+    font-size: 20px;
+    background-color: rgb(118, 117, 117);
+    color: #fff;
+    align-self: center;
+    text-align: center;
+}
+
+#logo {
     font-size: 25px;
     background-color: rgb(118, 117, 117);
     color: #fff;
-    padding: 10px 0px 10px 30px;
-    border-radius: 5px;
+    padding: 10px 0px 10px 30px;  
     align-self: center;
+    border-radius: 5px;
 }
 
-/* 右側主畫面 */
+/*右側主畫面*/
 #main {
     margin-left: 180px;
     /* 與左側選單保持距離 */
