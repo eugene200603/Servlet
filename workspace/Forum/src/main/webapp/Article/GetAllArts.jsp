@@ -46,7 +46,7 @@ td{
 				<c:forEach items="${arts}" var="art" varStatus="s">
 					<tr>
 						<td><img src="data:image/png;base64,${art.img}" style="max-width: 150px; max-height: 150px;"></td>
-						<td><a href="GetArt.jsp?artid=${art.artid}">${art.artid}</a></td>
+						<td><a href="../GetArt?artid=${art.artid}">${art.artid}</a></td>
 						<td>${art.title}</td>
 						<td>${art.maincontent}</td>
 						<td>${art.authorid}</td>

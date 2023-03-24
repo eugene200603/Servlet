@@ -71,8 +71,8 @@ public class UpdateArt extends HttpServlet {
 		} else {
 	        // 若沒有上傳新的圖片，則不更新資料庫的圖片欄位
 	        ArticleBean oldArt = dao.findArticleByID(artid);
-	        art.setImg(oldArt.getImg() != null ? oldArt.getImg() : "");
-	        
+	        art.setImg(oldArt.getImg());
+//	        != null ? oldArt.getImg() : ""
 		}
 			
 			art.setTitle(title);

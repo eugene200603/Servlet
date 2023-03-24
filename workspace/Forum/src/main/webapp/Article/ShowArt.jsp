@@ -175,7 +175,7 @@ form #preview {
 			</div>
 			<div>
 				圖片:<input type="file" name="updateimg" onchange="previewImage()">
-				<img id="preview" src="data:image/png;base64,${art.img}" alt="Preview"
+				<img id="preview" src="data:image/png;base64,${art.img}" alt="圖片預覽"
 					style="max-width: 150px; max-height: 150px; ">
 			</div>
 			<div class="button">
