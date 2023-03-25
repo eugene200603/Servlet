@@ -15,14 +15,17 @@
     <div id="sidebar">
         <ul>
          	<li>           	
-              <div id="logo"> <a href="article.html"> xx百貨</a></div>
+              <div id="logo"> <a href="article.html" class="logo"> xx百貨</a></div>
             </li>
           <li><br></li>
-            <li>           	
-                <h2>討論區</h2>
-            </li>
+            <li><h2>討論區</h2></li>
             <li><a href="article.html">文章管理</a></li>
             <li><a href="#">留言管理</a></li>
+            <li><a href="#">點讚管理</a></li>
+            <li><a href="#">檢舉管理</a></li>
+            <li><h2>客服中心</h2></li>
+            <li><a href="#">智能客服管理</a></li>
+            <li><a href="#">失物招領管理</a></li>
         </ul>
     </div>
 
@@ -33,7 +36,7 @@
 
             <form id="search-form">
                 <label for="search">標題：</label>
-                <input type="text" id="search" name="search">
+                <input type="text" id="search" name="search" required>
                 <button type="submit">搜尋</button>
             </form>
             <form id=findMem method="post" action="../GetByMem">

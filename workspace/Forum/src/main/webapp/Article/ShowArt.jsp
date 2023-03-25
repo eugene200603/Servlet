@@ -145,19 +145,19 @@ form #preview {
 		<form method="post" action="./UpdateArt"
 			onsubmit="return confirm('是否確定變更？')" enctype="multipart/form-data">
 			<h2>修改文章資料</h2>
-			<input type="hidden" name="artid" value="${art.artid}" /> <input
-				type="hidden" name="updateCreatetime" value="${art.createtime}" />
+			<input type="hidden" name="artid" value="${art.artid}" required/> <input
+				type="hidden" name="updateCreatetime" value="${art.createtime}"  required/>
 			<input type="hidden" name="updateUpdatetime"
-				value="${art.updatetime}" />
+				value="${art.updatetime}" required/>
 			<div>
 				使用者帳號 : <input type="text" name="updateAuthorid"
-					value="${art.authorid}"  />
+					value="${art.authorid}"  required/>
 			</div>
 			<div>
-				標題 : <input type="text" name="updateTitle" value="${art.title}" maxlength="15" />
+				標題 : <input type="text" name="updateTitle" value="${art.title}" maxlength="15" required/>
 			</div>
 			文章內容 :
-			<textarea name="updateMaincontent">${art.maincontent}</textarea>
+			<textarea name="updateMaincontent" required>${art.maincontent}</textarea>
 			<div>
 				類別ID : <select name="updateCategoryid">
 					<option value="1" ${art.categoryid == 1 ? "selected" : ""}>公告</option>

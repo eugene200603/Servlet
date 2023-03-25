@@ -46,14 +46,14 @@
 }
 
 #logo {
-    font-size: 25px;
+   
     background-color: rgb(118, 117, 117);
     color: #fff;
     padding: 10px 0px 10px 30px;  
     align-self: center;
     border-radius: 5px;
 }
-
+.logo { font-size: 25px;}
 /*右側主畫面*/
 #main {
     margin-left: 180px;
